@@ -1,0 +1,7 @@
+.idea
+/node_modules/
+/build/
+/assets/*
+!/assets/.gitkeep
+*.log
+*~

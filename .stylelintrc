@@ -1,0 +1,15 @@
+{
+	"extends": "stylelint-config-standard",
+	"rules": {
+		"indentation": "tab",
+		"at-rule-no-unknown": null,
+		"no-descending-specificity": null,
+		"font-family-no-missing-generic-family-keyword": null,
+		"no-duplicate-selectors": null
+	},
+	"ignoreFiles": [
+		"/**/node_modules/**/*",
+		"node_modules/**/*",
+		"/**/build/**/*"
+	]
+}
