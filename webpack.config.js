@@ -10,6 +10,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 
 const env = process.env.NODE_ENV || 'dev';
 const production = env === 'prod';
@@ -37,6 +38,7 @@ const common = merge([
 				$: 'jquery',
 				jQuery: 'jquery',
 			}),
+			new DuplicatePackageCheckerPlugin(),
 		],
 	},
 	babel(),
