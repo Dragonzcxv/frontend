@@ -1,6 +1,6 @@
 .idea
 /node_modules/
-/build/
+/builds/
 /assets/*
 !/assets/.gitkeep
 *.log

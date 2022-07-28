@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+// Loaders
 const css_loader = {
 	loader: 'css-loader',
 	options: {
@@ -23,13 +24,19 @@ const post_css_loader = {
 	}
 };
 
+// Конфиг
 module.exports = function() {
 	return {
 		module: {
 			rules: [
 				{
-					test: /\.(scss|css)$/,
-					use: [MiniCssExtractPlugin.loader, css_loader, post_css_loader, 'sass-loader'],
+					test: /\.(scss)$/,
+					use: [
+						MiniCssExtractPlugin.loader,
+						css_loader,
+						post_css_loader,
+						'sass-loader'
+					],
 				},
 			],
 		},
