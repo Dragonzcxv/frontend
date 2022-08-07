@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "browserslist": "> 0.25%, not dead",
   "scripts": {
     "build-prod": "NODE_ENV=prod webpack --progress",
     "build-dev": "NODE_ENV=dev webpack --progress",
