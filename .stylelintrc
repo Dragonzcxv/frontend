@@ -6,7 +6,11 @@
 		"at-rule-no-unknown": null,
 		"no-descending-specificity": null,
 		"font-family-no-missing-generic-family-keyword": null,
-		"no-duplicate-selectors": null
+		"no-duplicate-selectors": null,
+		"scss/comment-no-empty": null,
+		"scss/at-rule-conditional-no-parentheses": null,
+		"scss/at-mixin-pattern": null,
+		"scss/dollar-variable-empty-line-before": null
 	},
 	"ignoreFiles": [
 		"/**/node_modules/**/*",

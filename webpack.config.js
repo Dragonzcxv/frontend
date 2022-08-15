@@ -4,6 +4,7 @@ const { merge } = require('webpack-merge');
 const babel = require('./webpack/babel');
 const fonts = require('./webpack/fonts');
 const scss = require('./webpack/scss');
+const css = require('./webpack/css');
 const source_map = require('./webpack/source-map');
 const userSettings = require('./user.settings');
 const utils = require('./webpack/utils');
@@ -73,6 +74,7 @@ const common = merge([
 	babel(),
 	fonts(),
 	scss(),
+	css(),
 ]);
 
 module.exports = function() {
