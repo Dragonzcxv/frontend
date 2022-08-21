@@ -1,33 +1,44 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:math";
+@use "sass:string";
+
 /// Задает максимальную ширину и отступ для блока (с учетом адаптива)
 ///
-/// @param {bool} $indent-margin - делать отступ маржином (true) или падингом (false)
-@mixin content-max-width($indent-margin: false) {
-	$indent-type: if($indent-margin, "margin", "padding");
-
+/// @param {bool} $margin - делать отступ маржином (true) или падингом (false)
+@mixin content-container($margin: false) {
 	box-sizing: border-box;
 	max-width: $content-width-max;
-	#{$indent-type}-left: $indent;
-	#{$indent-type}-right: $indent;
 
-	$indent: if($indent-margin and map.get($content-padding, "min") == 0, auto, map.get($content-padding, "min"));
+	$indent: if($margin and map.get($content-padding, "min") == 0, auto, map.get($content-padding, "min"));
 
-	#{$indent-type}-left: $indent;
-	#{$indent-type}-right: $indent;
+	@if ($margin) {
+		margin-left: $indent;
+		margin-right: $indent;
+	} @else {
+		padding-left: $indent;
+		padding-right: $indent;
+	}
 
 	@each $key, $val in $site-breakpoints {
 		@media (min-width: $val) {
 			@if ($key != "min") {
-				$indent: if($indent-margin and map.get($content-padding, $key) == 0, auto, map.get($content-padding, $key));
+				$indent: if($margin and map.get($content-padding, $key) == 0, auto, map.get($content-padding, $key));
 
-				#{$indent-type}-left: $indent;
-				#{$indent-type}-right: $indent;
+				@if ($margin) {
+					margin-left: $indent;
+					margin-right: $indent;
+				} @else {
+					padding-left: $indent;
+					padding-right: $indent;
+				}
 			}
 		}
 	}
 }
 
 /// Задает резиновые отступы на странице
-@mixin main-padding() {
+@mixin main-container() {
 	max-width: calc-width("min", map.get($main-padding, "min"));
 
 	@each $key, $val in $site-breakpoints {
@@ -44,11 +55,11 @@
 /// Задает брекпоинт по ширине
 ///
 /// @param {breakpoints | size} $size - требуемый брейкпоинт
-/// @param {'up' | 'down'} $direction - направление min-width (up) или max-width (down)
-/// @param {'' | 'portrait' | 'landscape'} $orientation - добавить к условию ориентацию экрана
+/// @param {"up" | "down"} $direction - направление min-width (up) или max-width (down)
+/// @param {"" | "portrait" | "landscape"} $orientation - добавить к условию ориентацию экрана
 ///
 /// @example
-/// @include for-width ('max') {
+/// @include for-width ("max") {
 ///     width: 50%;
 /// }
 @mixin for-width($size, $direction: "up", $orientation: "") {
@@ -64,7 +75,7 @@
 		$media-rule: "(orientation: " + $orientation + ") and ";
 	}
 
-	@if (map-get($site-breakpoints, $size)) {
+	@if (map.get($site-breakpoints, $size)) {
 		$sizee: map.get($site-breakpoints, $size);
 	} @else {
 		$sizee: map.get($breakpoints-width, $size);
@@ -86,11 +97,11 @@
 /// Задает брекпоинт по высоте
 ///
 /// @param {breakpoints | size} $size - требуемый брейкпоинт
-/// @param {'up' | 'down'} $direction - направление min-height (up) или max-height (down)
-/// @param {'' | 'portrait' | 'landscape'} $orientation - добавить к условию ориентацию экрана
+/// @param {"up" | "down"} $direction - направление min-height (up) или max-height (down)
+/// @param {"" | "portrait" | "landscape"} $orientation - добавить к условию ориентацию экрана
 ///
 /// @example
-/// @include for-height ('max') {
+/// @include for-height ("max") {
 ///     height: 50rem;
 /// }
 @mixin for-height($size, $direction: "up", $orientation: "") {
@@ -98,7 +109,7 @@
 	$media: "min-height";
 	$sizee: "";
 
-	@if $direction == "down" {
+	@if ($direction == "down") {
 		$media: "max-height";
 	}
 
@@ -128,7 +139,7 @@
 /// Растягивает элемент на всю ширину окна
 ///
 /// @param {"left" | "right" | "all"} $side - направление растяжения
-@mixin layout-negative-margin($side: "left") {
+@mixin layout-negative-margin($side: left) {
 	$indent: calc((50vw - 50%) * -1);
 
 	@if ($side == "left") {
@@ -155,7 +166,7 @@
 @function half-gutter($gutter: $gutter-grid) {
 	$margin-em-val: strip-unit($gutter);
 	$margin-em-unit: math.unit($gutter);
-	$margin: $margin-em-val / 2;
+	$margin: math.div($margin-em-val, 2);
 	$margin: $margin + $margin-em-unit;
 
 	@return $margin;
@@ -164,6 +175,7 @@
 /// Вычисляет ширину в зависимости от переданных данных
 ///
 /// @param {number | percent | list} $size - требуемый размер
+///
 /// @example
 /// get-width(2); // 50%
 /// get-width(20%); // 20%
@@ -174,14 +186,14 @@
 
 	@if ($size != 0) {
 		@if (type-of($size) == "number") {
-			@if unit($size) == "" {
+			@if (unit($size) == "") {
 				$width: (100 / $size) + "%";
 			} @else {
 				$width: $size;
 			}
-		} @else if type-of($size) == "list" {
+		} @else if (type-of($size) == "list") {
 			@if (length($size) > 2) {
-				$width: math.percentage(list.nth($size, 1) / list.nth($size, 3));
+				$width: math.percentage(math.div(list.nth($size, 1), list.nth($size, 3)));
 			}
 		}
 	}
@@ -190,16 +202,17 @@
 }
 
 /// Задает контейнеру отрицательные боковые маржины равные половине $gutter
+///
 /// @param {false | size} $gutter - задает отступ. По умолчанию (false) берёт значение из конфига
 /// @param {bool} $top - задавать отступ сверху (true) или нет (false)
 @mixin grid-container($gutter: false, $top: false) {
 	@if ($gutter == false) {
-		@include _grid-container(map.get($gutter-size, "min"), $top, $gutter-output);
+		@include _grid-container(map.get($gutter-size, "min"), $top);
 
 		@each $key, $val in $site-breakpoints {
 			@if ($key != "min") {
 				@media (min-width: $val) {
-					@include _grid-container(map.get($gutter-size, $key), $top, $gutter-output);
+					@include _grid-container(map.get($gutter-size, $key), $top);
 				}
 			}
 		}
@@ -213,6 +226,7 @@
 
 	margin-left: -#{$margin};
 	margin-right: -#{$margin};
+	width: calc(100% + #{$gutter});
 
 	@if ($top == true) {
 		margin-top: -#{$gutter};
@@ -220,6 +234,7 @@
 }
 
 /// Задает элементу ширину за вычетом $gutter и боковые маржины равные половине $gutter
+///
 /// @param {size} $size - размер одного элемента
 /// @param {false | size} $gutter - задает отступы по брейкпоинтам (false) или постоянный отсутп
 /// @param {bool} $gutter-output - задавать отступы (true) или нет (false)
@@ -274,6 +289,7 @@
 }
 
 /// Функция расчета ширины контентной части исходя из отступов основных и резиновых
+///
 /// @param {breakpoint} $breakpoint - брейкпоинт для которого производится расчёт
 /// @param {size} $padding-elastic - размер резинового отступа на заданном брейкпоинте
 @function calc-width($breakpoint, $padding-elastic) {
@@ -284,18 +300,12 @@
 	@return $window-width - rem-to-px($padding-fixed, $font-size) * 2 - rem-to-px($padding-elastic) * 2;
 }
 
-/// Функция подключения шрифтов woff
-/// @param { string } $name - Название, по которому будет доступен шрифт
-/// @param { string } $path - Путь до шрифта
-/// @param { int } $weight - Значение жирности шрифта
-/// @param { string } $style - Стиль шрифта
-/// @param { bool } $woff2 - Подключать woff2(должен лежать рядом с woff)
 @mixin font-face($name, $path, $weight: normal, $style: normal, $woff2: false) {
 	$src: if($woff2, list.append(null, url($path + ".woff2") format(string.quote("woff2"))), null);
 	$src: list.append($src, url($path + ".woff") format(string.quote("woff")), comma);
 
 	@font-face {
-		font-family: $name;
+		font-family: string.quote($name);
 		font-style: $style;
 		font-weight: $weight;
 		src: $src;

@@ -1,0 +1,64 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:math";
+@use "sass:string";
+
+/// Чистит значение $num от единиц измерения
+///
+/// @param {number} $num - любое число в любых единицах измерения
+@function strip-unit($num) {
+	@return math.div($num, ($num * 0 + 1));
+}
+
+/// Функция возвращает массив в элементами в обратном порядке
+///
+/// @param {map} $map - массив для обработки
+@function map-reverse($map) {
+	$result: null;
+
+	@if (type-of($map) == "map") {
+		$keys: map.keys($map);
+		$map-reversed: ();
+
+		@for $i from length($keys) through 1 {
+			$map-reversed: map.merge(
+				$map-reversed,
+				(list.nth($keys, $i): map.get($map, list.nth($keys, $i)))
+			);
+		}
+
+		@if (type-of($map-reversed) == "map") {
+			$result: $map-reversed;
+		}
+	}
+
+	@return $result;
+}
+
+/// Функция для перевода значения $value в px в значение в rem на основе $base-value
+///
+/// @param {px} $value - размер в px
+/// @param {rem} $base-value - базовый размер в rem
+@function px-to-rem($value, $base-value: $global-font-size) {
+	$value: strip-unit($value) / strip-unit($base-value);
+
+	@if ($value > 0) {
+		$value: $value * 1rem;
+	}
+
+	@return $value;
+}
+
+/// Функция для перевода значения $value в rem в значение в px на основе $base-value
+///
+/// @param {px} $value - размер в rem
+/// @param {rem} $base-value - базовый размер в px
+@function rem-to-px($value, $base-value: $global-font-size) {
+	$value: strip-unit($value) * strip-unit($base-value);
+
+	@if ($value > 0) {
+		$value: $value * 1px;
+	}
+
+	@return $value;
+}

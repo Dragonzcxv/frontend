@@ -1,5 +1,5 @@
 module.exports = function() {
 	return {
-		devtool: 'eval-source-map',
+		devtool: 'source-map',
 	}
 }

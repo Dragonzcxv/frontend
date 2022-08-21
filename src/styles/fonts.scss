@@ -1,3 +1,5 @@
 @mixin site-fonts() {
-	// @include font-face($name: "Open Sans", $path: "normal-italic", $weight: normal, $style: italic, $woff2: true);
+	// Подключайте тут все используемые шрифты
+	// Пример использования миксина
+	// @include font-face($name: "Roboto", $path: "font/Roboto-Regular", $weight: 400, $style: normal, $woff2: true);
 }

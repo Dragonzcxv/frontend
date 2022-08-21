@@ -5,6 +5,14 @@ const css_loader = {
 	loader: 'css-loader',
 	options: {
 		url: false,
+		sourceMap: true,
+	},
+};
+
+const sass_loader = {
+	loader: 'sass-loader',
+	options: {
+		sourceMap: true,
 	}
 };
 
@@ -35,7 +43,7 @@ module.exports = function() {
 						MiniCssExtractPlugin.loader,
 						css_loader,
 						post_css_loader,
-						'sass-loader'
+						sass_loader
 					],
 				},
 			],

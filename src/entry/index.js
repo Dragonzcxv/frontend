@@ -1,4 +1,4 @@
-import 'styles/layout/index';
+import "styles/layout/index";
 import 'block/common/common';
 import "normalize.css";
 
