@@ -4,7 +4,16 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const css_loader = {
 	loader: 'css-loader',
 	options: {
-		url: false,
+		filter: (url, resourcePath) => {
+			if (url.startsWith('/')) {
+				return false;
+			}
+			if (url.startsWith('../')) {
+				return false;
+			}
+			
+			return true;
+		},
 		sourceMap: true,
 	},
 };
