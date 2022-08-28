@@ -1,16 +1,16 @@
 @use "sass:map";
-@import "styles/styles";
+@import "style";
 @include site-fonts;
 @include wysiwyg;
 
 html {
 	height: 100%;
 	overflow-y: visible;
-	font-size: map.get($font-size, "min");
 	box-sizing: border-box;
+	font-size: $font-size-over-max;
 
 	@each $key, $val in $site-breakpoints {
-		@media (min-width: $val) {
+		@media (max-width: $val) {
 			font-size: map.get($font-size, $key);
 		}
 	}
@@ -18,7 +18,6 @@ html {
 
 body {
 	display: flex;
-	width: 100%;
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -31,38 +30,8 @@ body {
 	& * {
 		box-sizing: border-box;
 	}
-
-	#app {
-		@include content-container;
-		@include main-container;
-
-		width: 100%;
-		height: 100%;
-	}
 }
 
 main {
 	//
-}
-
-// даёт блоку теже размеры/отступы, что и основному контенту сайта
-.l-content-container {
-	width: 100%;
-
-	@include content-container;
-}
-
-// растягивает элемент на всю ширину окна
-.l-stretch-all {
-	@include layout-negative-margin($side: "all");
-}
-
-// растягивает элемент на всю ширину окна слева
-.l-stretch-left {
-	@include layout-negative-margin($side: "left");
-}
-
-// растягивает элемент на всю ширину окна справа
-.l-stretch-right {
-	@include layout-negative-margin($side: "right");
 }

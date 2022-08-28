@@ -14,72 +14,53 @@ $content-width-max: 1920px; // максимальная ширина сайта
 
 $site-breakpoints: (
 	min: 320px,
-	mobile: 374px,
-	mobile2: 450px,
-	mobile3: 767px,
-	middle: 1040px,
-	middle2: 1240px,
-	middle3: 1440px,
+	mobile: 720px,
+	middle: 1600px,
 	full: 1920px,
 );
 
 // паддинг контента СТРАНИЦЫ для разных брекпоинтов
-// наличие min, mobile и full обязательно. остальные могут называться как угодно
-// работают через max-width. тобишь отступ min будет ДО разрешения min, а отступ mobile ДО разрешения mobile
+// работают через max-width
 $content-padding: (
 	min: 0.75rem,
 	mobile: 0.75rem,
-	mobile2: 0.75rem,
-	mobile3: 1.5rem,
 	middle: 2.5rem,
-	middle2: 4rem,
-	middle3: 4rem,
 	full: 7rem,
 );
 
-// паддинг контента СТРАНИЦЫ если экран больше макс.ширины - $content-width-max (обычно равен 0)
 $content-padding-over-max: 7rem;
 
 // паддинг для MAIN для разных брекпоинтов
-// наличие min, mobile и full обязательно. остальные могут называться как угодно
-// работают через min-width
+// работают через max-width
 $main-padding: (
 	min: 0,
 	mobile: 0.5rem,
-	mobile2: 0.75rem,
-	mobile3: 1rem,
 	middle: 1.25rem,
-	middle2: 2.5rem,
-	middle3: 3.75rem,
 	full: 5rem,
 );
 
+$main-padding-over-max: 5rem;
+
 // отступ для grid-container и grid-cell для разных брекпоинтов
-// наличие min, mobile и full обязательно. остальные могут называться как угодно
-// работают через min-width
+// работают через max-width
 $gutter-size: (
 	min: 5px,
 	mobile: 7.5px,
-	mobile2: 10px,
-	mobile3: 12.5px,
 	middle: 15px,
-	middle2: 17.5px,
-	middle3: 20px,
 	full: 25px,
 );
 
+$gutter-size-over-max: 25px;
+
 // базовый размер ширифта для разных брекпоинтов
-// наличие min, mobile и full обязательно. остальные могут называться как угодно
 $font-size: (
 	min: 20px,
 	mobile: 20px,
-	mobile2: 20px,
-	mobile3: 20px,
 	middle: 20px,
-	middle2: 20px,
-	middle3: 20px,
 	full: 20px,
 );
+
+$font-size-over-max: 20px;
 
 $header-height: 4.5rem;
 $header-height-mobile: 3rem;
@@ -95,9 +76,6 @@ $body-font-size: 1rem;
 // Брекпоинты по ширине
 $breakpoints-width: (
 	"zero": 0,
-	"600": 600px,
-	"860": 860px,
-	"1600": 1600px,
 );
 
 // Брекпоинты по высоте

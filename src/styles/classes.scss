@@ -1,0 +1,61 @@
+// даёт блоку теже размеры/отступы, что и основному контенту сайта
+.l-content-max-width {
+	width: 100%;
+
+	@include content-container;
+}
+
+// растягивает элемент на всю ширину окна
+.l-stretch-all {
+	@include layout-negative-margin($side: "all");
+
+	// даёт вложенному блоку теже размеры/отступы, что и основному контенту сайта
+	.l-compress-content {
+		@include main-container;
+	}
+}
+
+// растягивает элемент на всю ширину окна слева
+.l-stretch-left {
+	@include layout-negative-margin($side: "left");
+
+	// даёт вложенному блоку теже размеры/отступы, что и основному контенту сайта
+	.l-compress-content {
+		@include main-container;
+
+		margin-right: 0;
+	}
+}
+
+// растягивает элемент на всю ширину окна справа
+.l-stretch-right {
+	@include layout-negative-margin($side: "right");
+
+	// даёт вложенному блоку теже размеры/отступы, что и основному контенту сайта
+	.l-compress-content {
+		@include main-container;
+
+		margin-left: 0;
+	}
+}
+
+// даёт вложенному блоку теже размеры/отступы, что и основному контенту сайта
+.l-compress-all {
+	@include main-container;
+
+	margin: auto;
+}
+
+// даёт вложенному блоку теже размеры/отступы, что и основному контенту сайта
+.l-compress-left {
+	@include main-container;
+
+	margin-right: 0;
+}
+
+// даёт вложенному блоку теже размеры/отступы, что и основному контенту сайта
+.l-compress-right {
+	@include main-container;
+
+	margin-left: 0;
+}

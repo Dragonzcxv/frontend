@@ -5,14 +5,14 @@
 
 /// Задает максимальную ширину и отступ для блока (с учетом адаптива)
 ///
-/// @param {bool} $margin - делать отступ маржином (true) или падингом (false)
-@mixin content-container($margin: false) {
+/// @param {bool} $indent-margin - делать отступ маржином (true) или падингом (false)
+@mixin content-container($indent-margin: false) {
 	box-sizing: border-box;
 	max-width: $content-width-max;
 
-	$indent: if($margin and map.get($content-padding, "min") == 0, auto, map.get($content-padding, "min"));
+	$indent: if($indent-margin and $content-padding-over-max == 0, auto, $content-padding-over-max);
 
-	@if ($margin) {
+	@if ($indent-margin) {
 		margin-left: $indent;
 		margin-right: $indent;
 	} @else {
@@ -20,18 +20,16 @@
 		padding-right: $indent;
 	}
 
-	@each $key, $val in $site-breakpoints {
-		@media (min-width: $val) {
-			@if ($key != "min") {
-				$indent: if($margin and map.get($content-padding, $key) == 0, auto, map.get($content-padding, $key));
+	@each $key, $val in map-reverse($site-breakpoints) {
+		@media (max-width: $val) {
+			$indent: if($indent-margin and map.get($content-padding, $key) == 0, auto, map.get($content-padding, $key));
 
-				@if ($margin) {
-					margin-left: $indent;
-					margin-right: $indent;
-				} @else {
-					padding-left: $indent;
-					padding-right: $indent;
-				}
+			@if ($indent-margin) {
+				margin-left: $indent;
+				margin-right: $indent;
+			} @else {
+				padding-left: $indent;
+				padding-right: $indent;
 			}
 		}
 	}
@@ -39,13 +37,11 @@
 
 /// Задает резиновые отступы на странице
 @mixin main-container() {
-	max-width: calc-width("min", map.get($main-padding, "min"));
+	max-width: calc-width("full", $main-padding-over-max);
 
-	@each $key, $val in $site-breakpoints {
-		@if ($key != "min") {
-			@media (min-width: $val) {
-				max-width: calc-width($key, map.get($main-padding, $key));
-			}
+	@each $key, $val in map-reverse($site-breakpoints) {
+		@media (max-width: $val) {
+			max-width: calc-width($key, map.get($main-padding, $key));
 		}
 	}
 
@@ -207,13 +203,11 @@
 /// @param {bool} $top - задавать отступ сверху (true) или нет (false)
 @mixin grid-container($gutter: false, $top: false) {
 	@if ($gutter == false) {
-		@include _grid-container(map.get($gutter-size, "min"), $top);
+		@include _grid-container($gutter-size-over-max, $top);
 
 		@each $key, $val in $site-breakpoints {
-			@if ($key != "min") {
-				@media (min-width: $val) {
-					@include _grid-container(map.get($gutter-size, $key), $top);
-				}
+			@media (max-width: $val) {
+				@include _grid-container(map.get($gutter-size, $key), $top);
 			}
 		}
 	} @else {
@@ -242,13 +236,11 @@
 /// @param {false | size} $max-width - ограничение максимальной ширины. По умолчанию отсутствует (false)
 @mixin grid-cell($size: 0, $gutter: false, $gutter-output: true, $top: false, $max-width: false) {
 	@if ($gutter == false) {
-		@include _grid-cell($size, map.get($gutter-size, "min"), $gutter-output, $top, $max-width);
+		@include _grid-cell($size, $gutter-size-over-max, $gutter-output, $top, $max-width);
 
 		@each $key, $val in $site-breakpoints {
-			@if ($key != "min") {
-				@media (min-width: $val) {
-					@include _grid-cell($size, map.get($gutter-size, $key), $gutter-output, $top, $max-width);
-				}
+			@media (max-width: $val) {
+				@include _grid-cell($size, map.get($gutter-size, $key), $gutter-output, $top, $max-width);
 			}
 		}
 	} @else {
@@ -297,7 +289,19 @@
 	$padding-fixed: map.get($content-padding, $breakpoint);
 	$font-size: map.get($font-size, $breakpoint);
 
-	@return $window-width - rem-to-px($padding-fixed, $font-size) * 2 - rem-to-px($padding-elastic) * 2;
+	$padding-fixed-px: $padding-fixed;
+
+	@if (math.unit($padding-fixed-px) == "rem") {
+		$padding-fixed-px: rem-to-px($padding-fixed, $font-size);
+	}
+
+	$padding-elastic-px: $padding-elastic;
+
+	@if (math.unit($padding-elastic-px) == "rem") {
+		$padding-elastic-px: rem-to-px($padding-elastic, $font-size);
+	}
+
+	@return $window-width - $padding-fixed-px * 2 - $padding-elastic-px * 2;
 }
 
 @mixin font-face($name, $path, $weight: normal, $style: normal, $woff2: false) {
