@@ -1,5 +1,7 @@
+// Писать в этом файле свои стили ОЧЕНЬ не рекомендуется, все стили должны быть разнесены по блокам.
 @use "sass:map";
 @import "styles/styles";
+@import "styles/classes";
 @include site-fonts;
 @include wysiwyg;
 
@@ -8,6 +10,7 @@ html {
 	overflow-y: visible;
 	box-sizing: border-box;
 	font-size: $font-size-over-max;
+	overflow-x: hidden;
 
 	@each $key, $val in $site-breakpoints {
 		@media (max-width: $val) {
@@ -19,6 +22,7 @@ html {
 body {
 	display: flex;
 	height: 100%;
+	overflow-x: hidden;
 	margin: 0;
 	padding: 0;
 	background: $body-background;

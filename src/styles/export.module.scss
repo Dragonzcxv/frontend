@@ -1,0 +1,13 @@
+@import "config";
+
+/* stylelint-disable selector-pseudo-class-no-unknown, declaration-block-trailing-semicolon
+ */
+:export {
+	color: $color-white;
+}
+
+@each $key, $val in $site-breakpoints {
+	:export {
+		site-breakpoints-#{$key}: $val
+	}
+}

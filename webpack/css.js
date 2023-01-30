@@ -17,6 +17,9 @@ const css_loader = {
 			}
 		},
 		sourceMap: true,
+		// modules: {
+		// 	compileType: "module"
+		// },
 	},
 };
 

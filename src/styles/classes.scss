@@ -1,8 +1,13 @@
 // даёт блоку теже размеры/отступы, что и основному контенту сайта
-.l-content-max-width {
-	width: 100%;
-
+.l-content-container {
 	@include content-container;
+
+	width: 100%;
+	margin: 0 auto;
+}
+
+.l-main-container {
+	@include main-container;
 }
 
 // растягивает элемент на всю ширину окна

@@ -19,30 +19,30 @@ $site-breakpoints: (
 	full: 1920px,
 );
 
-// паддинг контента СТРАНИЦЫ для разных брекпоинтов
-// работают через max-width
-$content-padding: (
-	min: 0.75rem,
-	mobile: 0.75rem,
-	middle: 2.5rem,
-	full: 7rem,
+// отступ контента СТРАНИЦЫ для разных брекпоинтов
+// работают через media-запрос max-width
+$content-offsets: (
+	min: 15px,
+	mobile: 15px,
+	middle: 50px,
+	full: 140px,
 );
 
-$content-padding-over-max: 7rem;
+$content-offset-over-max: 140px;
 
-// паддинг для MAIN для разных брекпоинтов
-// работают через max-width
-$main-padding: (
+// отступ для MAIN для разных брекпоинтов
+// работают через media-запрос max-width
+$main-offsets: (
 	min: 0,
-	mobile: 0.5rem,
-	middle: 1.25rem,
-	full: 5rem,
+	mobile: 10px,
+	middle: 25px,
+	full: 100px,
 );
 
-$main-padding-over-max: 5rem;
+$main-offset-over-max: 100px;
 
 // отступ для grid-container и grid-cell для разных брекпоинтов
-// работают через max-width
+// работают через media-запрос max-width
 $gutter-size: (
 	min: 5px,
 	mobile: 7.5px,
@@ -62,16 +62,15 @@ $font-size: (
 
 $font-size-over-max: 20px;
 
-$header-height: 4.5rem;
-$header-height-mobile: 3rem;
+$header-height: 90px;
+$header-height-mobile: 60px;
 
 $global-font-size: 20px;
-$global-lineheight: 1.3;
 
 $body-background: $color-white;
 $body-font-color: $color-black;
 $body-font-family: "Roboto", "Helvetica", sans-serif;
-$body-font-size: 1rem;
+$body-font-size: 20px;
 
 // Брекпоинты по ширине
 $breakpoints-width: (

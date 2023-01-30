@@ -34,31 +34,3 @@
 
 	@return $result;
 }
-
-/// Функция для перевода значения $value в px в значение в rem на основе $base-value
-///
-/// @param {px} $value - размер в px
-/// @param {rem} $base-value - базовый размер в rem
-@function px-to-rem($value, $base-value: $global-font-size) {
-	$value: strip-unit($value) / strip-unit($base-value);
-
-	@if ($value > 0) {
-		$value: $value * 1rem;
-	}
-
-	@return $value;
-}
-
-/// Функция для перевода значения $value в rem в значение в px на основе $base-value
-///
-/// @param {px} $value - размер в rem
-/// @param {rem} $base-value - базовый размер в px
-@function rem-to-px($value, $base-value: $global-font-size) {
-	$value: strip-unit($value) * strip-unit($base-value);
-
-	@if ($value > 0) {
-		$value: $value * 1px;
-	}
-
-	@return $value;
-}
