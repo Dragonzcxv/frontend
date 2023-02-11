@@ -8,10 +8,6 @@ $color-blue: #245b8f;
 $color-turquoise: #04a7b5;
 $color-bg-site: #f9f9fa;
 
-// минималка и максималка для контента сайта (может не совпадать с брекпоинтами)
-$content-width-min: 320px; // минимальная ширина сайта
-$content-width-max: 1920px; // максимальная ширина сайта
-
 $site-breakpoints: (
 	min: 320px,
 	mobile: 720px,
@@ -20,29 +16,29 @@ $site-breakpoints: (
 );
 
 // отступ контента СТРАНИЦЫ для разных брекпоинтов
-// работают через media-запрос max-width
+// работают через media-запрос min-width
 $content-offsets: (
 	min: 15px,
-	mobile: 15px,
-	middle: 50px,
-	full: 140px,
+	mobile: 20px,
+	middle: 30px,
+	full: 50px,
 );
 
-$content-offset-over-max: 140px;
+$content-offset-over-min: 10px;
 
 // отступ для MAIN для разных брекпоинтов
-// работают через media-запрос max-width
-$main-offsets: (
-	min: 0,
-	mobile: 10px,
-	middle: 25px,
-	full: 100px,
+// работают через media-запрос min-width
+$main-width: (
+	min: 320px,
+	mobile: 680px,
+	middle: 1440px,
+	full: 1780px,
 );
 
-$main-offset-over-max: 100px;
+$main-width-over-min: 320px;
 
 // отступ для grid-container и grid-cell для разных брекпоинтов
-// работают через media-запрос max-width
+// работают через media-запрос min-width
 $gutter-size: (
 	min: 5px,
 	mobile: 7.5px,
@@ -50,7 +46,7 @@ $gutter-size: (
 	full: 25px,
 );
 
-$gutter-size-over-max: 25px;
+$gutter-size-over-min: 5px;
 
 // базовый размер ширифта для разных брекпоинтов
 $font-size: (
@@ -60,7 +56,7 @@ $font-size: (
 	full: 20px,
 );
 
-$font-size-over-max: 20px;
+$font-size-over-min: 20px;
 
 $header-height: 90px;
 $header-height-mobile: 60px;

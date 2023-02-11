@@ -1,7 +1,6 @@
 // Писать в этом файле свои стили ОЧЕНЬ не рекомендуется, все стили должны быть разнесены по блокам.
 @use "sass:map";
-@import "styles/styles";
-@import "styles/classes";
+@import "style";
 @include site-fonts;
 @include wysiwyg;
 
@@ -9,11 +8,11 @@ html {
 	height: 100%;
 	overflow-y: visible;
 	box-sizing: border-box;
-	font-size: $font-size-over-max;
+	font-size: $font-size-over-min;
 	overflow-x: hidden;
 
 	@each $key, $val in $site-breakpoints {
-		@media (max-width: $val) {
+		@media (min-width: $val) {
 			font-size: map.get($font-size, $key);
 		}
 	}
@@ -29,7 +28,6 @@ body {
 	font-family: $body-font-family;
 	color: $body-font-color;
 	font-weight: 400;
-	min-width: $content-width-min;
 
 	& * {
 		box-sizing: border-box;

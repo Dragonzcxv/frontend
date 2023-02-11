@@ -9,9 +9,8 @@
 /// @param {bool} $indent-margin - делать отступ маржином (true) или падингом (false)
 @mixin content-container($side: "all", $indent-margin: false) {
 	box-sizing: border-box;
-	max-width: $content-width-max;
 
-	$indent: if($indent-margin and $content-offset-over-max == 0, auto, $content-offset-over-max);
+	$indent: if($indent-margin and $content-offset-over-min == 0, auto, $content-offset-over-min);
 
 	@if ($indent-margin) {
 		@if ($side == "all" or $side == "left") {
@@ -31,8 +30,8 @@
 		}
 	}
 
-	@each $key, $val in map-reverse($site-breakpoints) {
-		@media (max-width: $val) {
+	@each $key, $val in $site-breakpoints {
+		@media (min-width: $val) {
 			$indent: if($indent-margin and map.get($content-offsets, $key) == 0, auto, map.get($content-offsets, $key));
 
 			@if ($indent-margin) {
@@ -56,13 +55,74 @@
 	}
 }
 
-/// Задает max-width для работы резиновых отступов
-@mixin main-container() {
-	max-width: calc-width("full", $main-offset-over-max);
+// Для переданного css свойства устанавливает значение переменной $content-offsets
+@mixin get-content-offsets-value($css-property) {
+	#{$css-property}: $content-offset-over-min;
 
-	@each $key, $val in map-reverse($site-breakpoints) {
-		@media (max-width: $val) {
-			max-width: calc-width($key, map.get($main-offsets, $key));
+	@each $key, $val in $site-breakpoints {
+		$value: map.get($content-offsets, $key);
+
+		@media (min-width: $val) {
+			#{$css-property}: $value;
+		}
+	}
+}
+
+// Для переданного css свойства устанавливает значение переменной $main-width
+@mixin get-main-width-value($css-property) {
+	#{$css-property}: $main-offset-over-mix;
+
+	@each $key, $val in $site-breakpoints {
+		$value: map.get($main-width, $key);
+
+		@media (min-width: $val) {
+			#{$css-property}: $value;
+		}
+	}
+}
+
+// Для переданного css свойства устанавливает значение выражения $content-offsets + $main-width
+@mixin get-all-size-value($css-property) {
+	#{$css-property}: $main-offset-over-mix + $content-offset-over-min;
+
+	@each $key, $val in $site-breakpoints {
+		$value: map.get($main-width, $key) + map.get($content-offsets, $key);
+
+		@media (min-width: $val) {
+			#{$css-property}: $value;
+		}
+	}
+}
+
+// Ограничивает кол-во строчек текста
+@mixin limit-text-lines-count($line-count) {
+	-ms-text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	-ms-line-clamp: $line-count;
+	-webkit-line-clamp: $line-count;
+	line-clamp: $line-count;
+	display: -webkit-box;
+	word-wrap: break-word;
+	-webkit-box-orient: vertical;
+}
+
+/// Задает max-width для работы резиновых отступов
+@mixin main-container($side: "all") {
+	@if ($side == "all") {
+		max-width: $main-width-over-min;
+	} @else {
+		max-width: $main-width-over-min - $content-offset-over-min;
+	}
+
+	@each $key, $val in $site-breakpoints {
+		@media (min-width: $val) {
+			@if ($side == "all") {
+				max-width: map.get($main-width, $key);
+			} @else {
+				max-width: map.get($main-width, $key) - map.get($content-offsets, $key);
+			}
 		}
 	}
 
@@ -102,8 +162,8 @@
 		$sizee: $size;
 	}
 
-	@if ($direction == "up") {
-		$sizee: $sizee + 1;
+	@if ($direction == "down") {
+		$sizee: $sizee - 1;
 	}
 
 	@media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
@@ -144,8 +204,8 @@
 		$sizee: $size;
 	}
 
-	@if ($direction == "up") {
-		$sizee: $sizee + 1;
+	@if ($direction == "down") {
+		$sizee: $sizee - 1;
 	}
 
 	@media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
@@ -227,10 +287,10 @@
 	grid-template-columns: $template-columns;
 
 	@if ($gap == false) {
-		gap: $gutter-size-over-max;
+		gap: $gutter-size-over-min;
 
-		@each $key, $val in map-reverse($site-breakpoints) {
-			@media (max-width: $val) {
+		@each $key, $val in $site-breakpoints {
+			@media (min-width: $val) {
 				gap: map.get($gutter-size, $key);
 			}
 		}
@@ -239,16 +299,14 @@
 	}
 }
 
-/// Функция расчета ширины контентной части исходя из отступов основных и резиновых
+/// Функция расчета ширины контентной части исходя из резиновых отступов
 ///
 /// @param {breakpoint} $breakpoint - брейкпоинт для которого производится расчёт
 /// @param {size} $padding-elastic - размер резинового отступа на заданном брейкпоинте
 @function calc-width($breakpoint, $padding-elastic) {
 	$window-width: map.get($site-breakpoints, $breakpoint);
-	$padding-fixed: map.get($content-offsets, $breakpoint);
-	$font-size: map.get($font-size, $breakpoint);
 
-	@return $window-width - $padding-fixed * 2 - $padding-elastic * 2;
+	@return $window-width - $padding-elastic * 2;
 }
 
 @mixin font-face($name, $path, $weight: normal, $style: normal, $woff2: false) {
