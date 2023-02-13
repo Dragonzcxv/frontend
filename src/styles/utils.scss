@@ -34,3 +34,32 @@
 
 	@return $result;
 }
+
+/// Вычисляет ширину в зависимости от переданных данных
+///
+/// @param {number | percent | list} $size - требуемый размер
+///
+/// @example
+/// get-width(2); // 50%
+/// get-width(20%); // 20%
+/// get-width(300px); // 300px
+/// get-width(1 of 12); // 8.333%
+@function get-width($size: 0) {
+	$width: 100%;
+
+	@if ($size != 0) {
+		@if (type-of($size) == "number") {
+			@if (unit($size) == "") {
+				$width: (100 / $size) + "%";
+			} @else {
+				$width: $size;
+			}
+		} @else if (type-of($size) == "list") {
+			@if (length($size) > 2) {
+				$width: math.percentage(math.div(list.nth($size, 1), list.nth($size, 3)));
+			}
+		}
+	}
+
+	@return #{$width};
+}

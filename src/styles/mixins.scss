@@ -56,37 +56,11 @@
 }
 
 // Для переданного css свойства устанавливает значение переменной $content-offsets
-@mixin get-content-offsets-value($css-property) {
+@mixin set-content-offsets($css-property) {
 	#{$css-property}: $content-offset-over-min;
 
 	@each $key, $val in $site-breakpoints {
 		$value: map.get($content-offsets, $key);
-
-		@media (min-width: $val) {
-			#{$css-property}: $value;
-		}
-	}
-}
-
-// Для переданного css свойства устанавливает значение переменной $main-width
-@mixin get-main-width-value($css-property) {
-	#{$css-property}: $main-offset-over-mix;
-
-	@each $key, $val in $site-breakpoints {
-		$value: map.get($main-width, $key);
-
-		@media (min-width: $val) {
-			#{$css-property}: $value;
-		}
-	}
-}
-
-// Для переданного css свойства устанавливает значение выражения $content-offsets + $main-width
-@mixin get-all-size-value($css-property) {
-	#{$css-property}: $main-offset-over-mix + $content-offset-over-min;
-
-	@each $key, $val in $site-breakpoints {
-		$value: map.get($main-width, $key) + map.get($content-offsets, $key);
 
 		@media (min-width: $val) {
 			#{$css-property}: $value;
@@ -213,71 +187,6 @@
 	}
 }
 
-/// Растягивает элемент на всю ширину окна
-///
-/// @param {"left" | "right" | "all"} $side - направление растяжения
-@mixin layout-negative-margin($side: left) {
-	$indent: calc((50vw - 50%) * -1);
-
-	@if ($side == "left") {
-		width: calc(100% + ((100vw - 100%) / 2)) !important;
-		margin-left: #{$indent} !important;
-	}
-
-	@if ($side == "right") {
-		width: calc(100% + ((100vw - 100%) / 2)) !important;
-		margin-right: #{$indent} !important;
-	}
-
-	@if ($side == "all") {
-		width: 100vw !important;
-		margin-left: #{$indent} !important;
-		margin-right: #{$indent} !important;
-	}
-}
-
-/// Вычисляет половину от любой единицы измерения
-/// Используется для вычисления gutter в резиновых отступах
-///
-/// @param {size} $gutter - резиновый отступ
-@function half-gutter($gutter: $gutter-grid) {
-	$margin-em-val: strip-unit($gutter);
-	$margin-em-unit: math.unit($gutter);
-	$margin: math.div($margin-em-val, 2);
-	$margin: $margin + $margin-em-unit;
-
-	@return $margin;
-}
-
-/// Вычисляет ширину в зависимости от переданных данных
-///
-/// @param {number | percent | list} $size - требуемый размер
-///
-/// @example
-/// get-width(2); // 50%
-/// get-width(20%); // 20%
-/// get-width(300px); // 300px
-/// get-width(1 of 12); // 8.333%
-@function get-width($size: 0) {
-	$width: 100%;
-
-	@if ($size != 0) {
-		@if (type-of($size) == "number") {
-			@if (unit($size) == "") {
-				$width: (100 / $size) + "%";
-			} @else {
-				$width: $size;
-			}
-		} @else if (type-of($size) == "list") {
-			@if (length($size) > 2) {
-				$width: math.percentage(math.div(list.nth($size, 1), list.nth($size, 3)));
-			}
-		}
-	}
-
-	@return #{$width};
-}
-
 /// Миксин для сетки
 ///
 /// @param {grid-template-value} $template-columns - размер столбцов через grid-template-columns
@@ -297,16 +206,6 @@
 	} @else {
 		gap: $gap;
 	}
-}
-
-/// Функция расчета ширины контентной части исходя из резиновых отступов
-///
-/// @param {breakpoint} $breakpoint - брейкпоинт для которого производится расчёт
-/// @param {size} $padding-elastic - размер резинового отступа на заданном брейкпоинте
-@function calc-width($breakpoint, $padding-elastic) {
-	$window-width: map.get($site-breakpoints, $breakpoint);
-
-	@return $window-width - $padding-elastic * 2;
 }
 
 @mixin font-face($name, $path, $weight: normal, $style: normal, $woff2: false) {
