@@ -55,33 +55,6 @@
 	}
 }
 
-// Для переданного css свойства устанавливает значение переменной $content-offsets
-@mixin set-content-offsets($css-property) {
-	#{$css-property}: $content-offset-over-min;
-
-	@each $key, $val in $site-breakpoints {
-		$value: map.get($content-offsets, $key);
-
-		@media (min-width: $val) {
-			#{$css-property}: $value;
-		}
-	}
-}
-
-// Ограничивает кол-во строчек текста
-@mixin limit-text-lines-count($line-count) {
-	-ms-text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	-ms-line-clamp: $line-count;
-	-webkit-line-clamp: $line-count;
-	line-clamp: $line-count;
-	display: -webkit-box;
-	word-wrap: break-word;
-	-webkit-box-orient: vertical;
-}
-
 /// Задает max-width для работы резиновых отступов
 @mixin main-container($side: "all") {
 	@if ($side == "all") {
@@ -190,21 +163,15 @@
 /// Миксин для сетки
 ///
 /// @param {grid-template-value} $template-columns - размер столбцов через grid-template-columns
-/// @param {gap-value} $gap - отступ между элементами
-@mixin grid-container($template-columns, $gap: false) {
+@mixin grid-container($template-columns) {
 	display: grid;
 	grid-template-columns: $template-columns;
+	gap: $gutter-size-over-max;
 
-	@if ($gap == false) {
-		gap: $gutter-size-over-min;
-
-		@each $key, $val in $site-breakpoints {
-			@media (min-width: $val) {
-				gap: map.get($gutter-size, $key);
-			}
+	@each $key, $val in map-reverse($site-breakpoints) {
+		@media (max-width: $val) {
+			gap: map.get($gutter-size, $key);
 		}
-	} @else {
-		gap: $gap;
 	}
 }
 

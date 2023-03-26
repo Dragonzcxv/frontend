@@ -1,14 +1,12 @@
 @use "sass:map";
-@import "style";
+@import "styles/styles";
 @include site-fonts;
 @include wysiwyg;
 
 html {
 	height: 100%;
-	overflow-y: visible;
 	box-sizing: border-box;
 	font-size: $font-size-over-min;
-	overflow-x: hidden;
 
 	@each $key, $val in $site-breakpoints {
 		@media (min-width: $val) {
@@ -18,9 +16,13 @@ html {
 }
 
 body {
-	display: flex;
+	display: grid;
 	height: 100%;
-	overflow-x: hidden;
+	grid-template-areas:
+		"header"
+		"main"
+		"footer";
+	grid-template-rows: auto 1fr auto;
 	margin: 0;
 	padding: 0;
 	background: $body-background;
@@ -33,6 +35,21 @@ body {
 	}
 }
 
+header {
+	grid-area: header;
+	z-index: 100;
+}
+
 main {
-	//
+	grid-area: main;
+	z-index: 50;
+}
+
+footer {
+	grid-area: footer;
+	z-index: 50;
+}
+
+.grecaptcha-badge {
+	z-index: 10000;
 }
