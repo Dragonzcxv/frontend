@@ -26,7 +26,7 @@ $content-offsets: (
 
 $content-offset-over-min: 10px;
 
-// отступ для grid-container на разных брекпоинтах
+// отступ для MAIN для разных брекпоинтов
 // работают через media-запрос min-width
 $main-width: (
 	min: 320px,
@@ -37,7 +37,7 @@ $main-width: (
 
 $main-width-over-min: 320px;
 
-// отступ для grid-container и grid-cell для разных брекпоинтов
+// отступ для grid-container на разных брекпоинтах
 // работают через media-запрос min-width
 $gutter-size: (
 	min: 5px,
@@ -57,6 +57,10 @@ $font-size: (
 );
 
 $font-size-over-min: 20px;
+
+$header-height: 90px;
+$header-height-mobile: 60px;
+
 $global-font-size: 20px;
 
 $body-background: $color-white;
