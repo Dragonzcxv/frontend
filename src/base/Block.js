@@ -3,31 +3,27 @@ import Registration from "base/Registration";
 /**
  * Основной класс блоков
  * 
- * @param { String } blockName - класс блока
  * @param { HTMLElement } el - элемент блока на странице
+ * @param { String } blockName - класс блока
  */
 class Block {
-	constructor(el) {
-		this.el = el;
-		this.$el = null;
+    constructor(el, blockName) {
+        this.el = el;
+        this.blockName = blockName;
+    }
 
-		if (window.jQuery) {
-			this.$el = $(el);
-		}
-	}
+    onInit() {
+        //
+    }
 
-	onInit() {
-		//
-	}
-
-	/**
-	 * Регистрирует класс в глобальной переменной
-	 * 
-	 * @param { Object } instance - класс, наследованный от блока
-	 */
-	static register(instance) {
-		Registration.blockRegister(instance.blockName, instance);
-	}
+    /**
+     * Регистрирует класс в глобальной переменной
+     * 
+     * @param { Object } instance - класс, наследованный от блока
+     */
+    static register(instance) {
+        Registration.blockRegister(instance.blockName, instance);
+    }
 }
 
 export default Block;

@@ -1,13 +1,26 @@
 @import "config";
 
-/* stylelint-disable selector-pseudo-class-no-unknown, declaration-block-trailing-semicolon
- */
+/* stylelint-disable selector-pseudo-class-no-unknown, declaration-block-trailing-semicolon, property-no-unknown
+
+*/
 :export {
-	color: $color-white;
+    gutter-size-over-min: $gutter-size-over-min;
 }
 
 @each $key, $val in $site-breakpoints {
-	:export {
-		site-breakpoints-#{$key}: $val
-	}
+    :export {
+        site-breakpoints-#{$key}: $val
+    }
+}
+
+@each $key, $val in $gutter-size {
+    :export {
+        gutter-size-#{$key}: $val
+    }
+}
+
+@each $key, $val in $breakpoints-width {
+    :export {
+        breakpoints-width-#{$key}: $val
+    }
 }

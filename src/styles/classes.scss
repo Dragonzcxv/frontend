@@ -1,11 +1,16 @@
-// даёт блоку теже размеры/отступы, что и основному контенту сайта
 .l-content-container {
-	@include content-container;
+    @include content-container;
 
-	width: 100%;
-	margin: 0 auto;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.l-content-container-left {
+    @include content-container("left");
+
+    width: 100%;
 }
 
 .l-main-container {
-	@include main-container;
+    @include main-container;
 }

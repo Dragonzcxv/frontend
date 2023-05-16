@@ -8,72 +8,85 @@
 /// @param {"left" | "right" | "all"} $side - направление растяжения
 /// @param {bool} $indent-margin - делать отступ маржином (true) или падингом (false)
 @mixin content-container($side: "all", $indent-margin: false) {
-	box-sizing: border-box;
+    box-sizing: border-box;
 
-	$indent: if($indent-margin and $content-offset-over-min == 0, auto, $content-offset-over-min);
+    $indent: if($indent-margin and $content-offset-over-min == 0, auto, $content-offset-over-min);
 
-	@if ($indent-margin) {
-		@if ($side == "all" or $side == "left") {
-			margin-left: $indent;
-		}
+    @if ($indent-margin) {
+        @if ($side == "all" or $side == "left") {
+            margin-left: $indent;
+        }
 
-		@if ($side == "all" or $side == "right") {
-			margin-right: $indent;
-		}
-	} @else {
-		@if ($side == "all" or $side == "left") {
-			padding-left: $indent;
-		}
+        @if ($side == "all" or $side == "right") {
+            margin-right: $indent;
+        }
+    } @else {
+        @if ($side == "all" or $side == "left") {
+            padding-left: $indent;
+        }
 
-		@if ($side == "all" or $side == "right") {
-			padding-right: $indent;
-		}
-	}
+        @if ($side == "all" or $side == "right") {
+            padding-right: $indent;
+        }
+    }
 
-	@each $key, $val in $site-breakpoints {
-		@media (min-width: $val) {
-			$indent: if($indent-margin and map.get($content-offsets, $key) == 0, auto, map.get($content-offsets, $key));
+    @each $key, $val in $site-breakpoints {
+        @media (min-width: $val) {
+            $indent: if($indent-margin and map.get($content-offsets, $key) == 0, auto, map.get($content-offsets, $key));
 
-			@if ($indent-margin) {
-				@if ($side == "all" or $side == "left") {
-					margin-left: $indent;
-				}
+            @if ($indent-margin) {
+                @if ($side == "all" or $side == "left") {
+                    margin-left: $indent;
+                }
 
-				@if ($side == "all" or $side == "right") {
-					margin-right: $indent;
-				}
-			} @else {
-				@if ($side == "all" or $side == "left") {
-					padding-left: $indent;
-				}
+                @if ($side == "all" or $side == "right") {
+                    margin-right: $indent;
+                }
+            } @else {
+                @if ($side == "all" or $side == "left") {
+                    padding-left: $indent;
+                }
 
-				@if ($side == "all" or $side == "right") {
-					padding-right: $indent;
-				}
-			}
-		}
-	}
+                @if ($side == "all" or $side == "right") {
+                    padding-right: $indent;
+                }
+            }
+        }
+    }
+}
+
+// Для переданного css свойства устанавливает значение переменной $content-offsets
+@mixin set-content-offsets($css-property) {
+    #{$css-property}: $content-offset-over-min;
+
+    @each $key, $val in $site-breakpoints {
+        $value: map.get($content-offsets, $key);
+
+        @media (min-width: $val) {
+            #{$css-property}: $value;
+        }
+    }
 }
 
 /// Задает max-width для работы резиновых отступов
 @mixin main-container($side: "all") {
-	@if ($side == "all") {
-		max-width: $main-width-over-min;
-	} @else {
-		max-width: $main-width-over-min - $content-offset-over-min;
-	}
+    @if ($side == "all") {
+        max-width: $main-width-over-min;
+    } @else {
+        max-width: $main-width-over-min - $content-offset-over-min;
+    }
 
-	@each $key, $val in $site-breakpoints {
-		@media (min-width: $val) {
-			@if ($side == "all") {
-				max-width: map.get($main-width, $key);
-			} @else {
-				max-width: map.get($main-width, $key) - map.get($content-offsets, $key);
-			}
-		}
-	}
+    @each $key, $val in $site-breakpoints {
+        @media (min-width: $val) {
+            @if ($side == "all") {
+                max-width: map.get($main-width, $key);
+            } @else {
+                max-width: map.get($main-width, $key) - map.get($content-offsets, $key);
+            }
+        }
+    }
 
-	margin: 0 auto;
+    margin: 0 auto;
 }
 
 /// Задает брейкпоинт по ширине
@@ -87,35 +100,35 @@
 ///     width: 50%;
 /// }
 @mixin for-width($size, $direction: "up", $orientation: "") {
-	$media-rule: "";
-	$media: "min-width";
-	$sizee: "";
+    $media-rule: "";
+    $media: "min-width";
+    $sizee: "";
 
-	@if ($direction == "down") {
-		$media: "max-width";
-	}
+    @if ($direction == "down") {
+        $media: "max-width";
+    }
 
-	@if ($orientation != "") {
-		$media-rule: "(orientation: " + $orientation + ") and ";
-	}
+    @if ($orientation != "") {
+        $media-rule: "(orientation: " + $orientation + ") and ";
+    }
 
-	@if (map.get($site-breakpoints, $size)) {
-		$sizee: map.get($site-breakpoints, $size);
-	} @else {
-		$sizee: map.get($breakpoints-width, $size);
-	}
+    @if (map.get($site-breakpoints, $size)) {
+        $sizee: map.get($site-breakpoints, $size);
+    } @else {
+        $sizee: map.get($breakpoints-width, $size);
+    }
 
-	@if (not $sizee) {
-		$sizee: $size;
-	}
+    @if (not $sizee) {
+        $sizee: $size;
+    }
 
-	@if ($direction == "down") {
-		$sizee: $sizee - 1;
-	}
+    @if ($direction == "down") {
+        $sizee: $sizee - 1;
+    }
 
-	@media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
-		@content;
-	}
+    @media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
+        @content;
+    }
 }
 
 /// Задает брейкпоинт по высоте
@@ -129,60 +142,60 @@
 ///     height: 1000px;
 /// }
 @mixin for-height($size, $direction: "up", $orientation: "") {
-	$media-rule: "";
-	$media: "min-height";
-	$sizee: "";
+    $media-rule: "";
+    $media: "min-height";
+    $sizee: "";
 
-	@if ($direction == "down") {
-		$media: "max-height";
-	}
+    @if ($direction == "down") {
+        $media: "max-height";
+    }
 
-	@if ($orientation != "") {
-		$media-rule: "(orientation: " + $orientation + ") and ";
-	}
+    @if ($orientation != "") {
+        $media-rule: "(orientation: " + $orientation + ") and ";
+    }
 
-	@if (map.get($site-breakpoints, $size)) {
-		$sizee: map.get($site-breakpoints, $size);
-	} @else {
-		$sizee: map.get($breakpoints-height, $size);
-	}
+    @if (map.get($site-breakpoints, $size)) {
+        $sizee: map.get($site-breakpoints, $size);
+    } @else {
+        $sizee: map.get($breakpoints-height, $size);
+    }
 
-	@if (not $sizee) {
-		$sizee: $size;
-	}
+    @if (not $sizee) {
+        $sizee: $size;
+    }
 
-	@if ($direction == "down") {
-		$sizee: $sizee - 1;
-	}
+    @if ($direction == "down") {
+        $sizee: $sizee - 1;
+    }
 
-	@media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
-		@content;
-	}
+    @media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
+        @content;
+    }
 }
 
 /// Миксин для сетки
 ///
 /// @param {grid-template-value} $template-columns - размер столбцов через grid-template-columns
 @mixin grid-container($template-columns) {
-	display: grid;
-	grid-template-columns: $template-columns;
-	gap: $gutter-size-over-max;
+    display: grid;
+    grid-template-columns: $template-columns;
+    gap: $gutter-size-over-min;
 
-	@each $key, $val in map-reverse($site-breakpoints) {
-		@media (max-width: $val) {
-			gap: map.get($gutter-size, $key);
-		}
-	}
+    @each $key, $val in map-reverse($site-breakpoints) {
+        @media (max-width: $val) {
+            gap: map.get($gutter-size, $key);
+        }
+    }
 }
 
 @mixin font-face($name, $path, $weight: normal, $style: normal, $woff2: false) {
-	$src: if($woff2, list.append(null, url($path + ".woff2") format(string.quote("woff2"))), null);
-	$src: list.append($src, url($path + ".woff") format(string.quote("woff")), comma);
+    $src: if($woff2, list.append(null, url($path + ".woff2") format(string.quote("woff2"))), null);
+    $src: list.append($src, url($path + ".woff") format(string.quote("woff")), comma);
 
-	@font-face {
-		font-family: string.quote($name);
-		font-style: $style;
-		font-weight: $weight;
-		src: $src;
-	}
+    @font-face {
+        font-family: string.quote($name);
+        font-style: $style;
+        font-weight: $weight;
+        src: $src;
+    }
 }

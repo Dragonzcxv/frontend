@@ -7,32 +7,32 @@
 ///
 /// @param {number} $num - любое число в любых единицах измерения
 @function strip-unit($num) {
-	@return math.div($num, ($num * 0 + 1));
+    @return math.div($num, ($num * 0 + 1));
 }
 
 /// Функция возвращает массив в элементами в обратном порядке
 ///
 /// @param {map} $map - массив для обработки
 @function map-reverse($map) {
-	$result: null;
+    $result: null;
 
-	@if (type-of($map) == "map") {
-		$keys: map.keys($map);
-		$map-reversed: ();
+    @if (type-of($map) == "map") {
+        $keys: map.keys($map);
+        $map-reversed: ();
 
-		@for $i from length($keys) through 1 {
-			$map-reversed: map.merge(
-				$map-reversed,
-				(list.nth($keys, $i): map.get($map, list.nth($keys, $i)))
-			);
-		}
+        @for $i from length($keys) through 1 {
+            $map-reversed: map.merge(
+                $map-reversed,
+                (list.nth($keys, $i): map.get($map, list.nth($keys, $i)))
+            );
+        }
 
-		@if (type-of($map-reversed) == "map") {
-			$result: $map-reversed;
-		}
-	}
+        @if (type-of($map-reversed) == "map") {
+            $result: $map-reversed;
+        }
+    }
 
-	@return $result;
+    @return $result;
 }
 
 /// Вычисляет ширину в зависимости от переданных данных
@@ -45,21 +45,21 @@
 /// get-width(300px); // 300px
 /// get-width(1 of 12); // 8.333%
 @function get-width($size: 0) {
-	$width: 100%;
+    $width: 100%;
 
-	@if ($size != 0) {
-		@if (type-of($size) == "number") {
-			@if (unit($size) == "") {
-				$width: (100 / $size) + "%";
-			} @else {
-				$width: $size;
-			}
-		} @else if (type-of($size) == "list") {
-			@if (length($size) > 2) {
-				$width: math.percentage(math.div(list.nth($size, 1), list.nth($size, 3)));
-			}
-		}
-	}
+    @if ($size != 0) {
+        @if (type-of($size) == "number") {
+            @if (unit($size) == "") {
+                $width: (100 / $size) + "%";
+            } @else {
+                $width: $size;
+            }
+        } @else if (type-of($size) == "list") {
+            @if (length($size) > 2) {
+                $width: math.percentage(math.div(list.nth($size, 1), list.nth($size, 3)));
+            }
+        }
+    }
 
-	@return #{$width};
+    @return #{$width};
 }
