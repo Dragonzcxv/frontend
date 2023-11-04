@@ -1,6 +1,6 @@
-import config from "styles/export.module.scss";
+import config from "../styles/export.module.scss";
 
-// TODO: Переработать на самособирающийся 
+// TODO: Переработать на самособирающийся
 // конфиг отталкиваясь от последовательности названий
 
 /**
@@ -9,41 +9,34 @@ import config from "styles/export.module.scss";
 class StyleConfig {
     /**
      * Возвращает объект, который содержит значения конфига стилей
-     * 
+     *
      * @returns {object}
      */
     static get() {
+        console.log(config);
         return {
             siteBreakpoints: {
-                min: this.getNumber(config["site-breakpoints-min"]),
-                mobile: this.getNumber(config["site-breakpoints-mobile"]),
-                mobile2: this.getNumber(config["site-breakpoints-mobile2"]),
+                min: this.getNumber(config["site-breakpoints-mobile"]),
+                table: this.getNumber(config["site-breakpoints-table"]),
                 middle: this.getNumber(config["site-breakpoints-middle"]),
-                middle2: this.getNumber(config["site-breakpoints-middle2"]),
-                middle3: this.getNumber(config["site-breakpoints-middle3"]),
+                big: this.getNumber(config["site-breakpoints-big"]),
                 full: this.getNumber(config["site-breakpoints-full"]),
             },
             gutterSize: {
                 overMin: this.getNumber(config["gutter-size-over-min"]),
-                min: this.getNumber(config["gutter-size-min"]),
                 mobile: this.getNumber(config["gutter-size-mobile"]),
-                mobile2: this.getNumber(config["gutter-size-mobile2"]),
+                table: this.getNumber(config["gutter-size-table"]),
                 middle: this.getNumber(config["gutter-size-middle"]),
-                middle2: this.getNumber(config["gutter-size-middle2"]),
-                middle3: this.getNumber(config["gutter-size-middle3"]),
+                big: this.getNumber(config["gutter-size-big"]),
                 full: this.getNumber(config["gutter-size-full"]),
-            },
-            extraBreakpoints: {
-                extraMobile: this.getNumber(config["breakpoints-width-extra-mobile"]),
-                extraMiddle: this.getNumber(config["breakpoints-width-extra-middle"]),
             },
         }
     }
 
     /**
      * Из стилевого значения превращает в число
-     * 
-     * @param {string} param 
+     *
+     * @param {string} param
      * @returns {number}
      */
     static getNumber(param) {

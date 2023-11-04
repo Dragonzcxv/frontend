@@ -12,31 +12,13 @@ const css_loader = {
                 if (url.startsWith('../')) {
                     return false;
                 }
-                
+
                 return true;
             }
         },
         sourceMap: true,
-        // modules: {
-        // 	compileType: "module"
-        // },
+        modules: true
     },
-};
-
-const post_css_loader = {
-    loader: "postcss-loader",
-    options: {
-        postcssOptions: {
-            plugins: [
-                [
-                    "autoprefixer",
-                    {
-                        // Options
-                    },
-                ],
-            ],
-        },
-    }
 };
 
 // Конфиг
@@ -49,7 +31,7 @@ module.exports = function() {
                     use: [
                         MiniCssExtractPlugin.loader,
                         css_loader,
-                        post_css_loader,
+                        "postcss-loader",
                     ],
                 },
             ],

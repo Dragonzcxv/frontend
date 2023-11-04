@@ -1,20 +1,29 @@
 {
-	"parser": "@babel/eslint-parser",
-	"parserOptions": {
-		"requireConfigFile": false
-	},
-	"extends": "eslint:recommended",
-	"rules": {
-		"indent": ["error", 4]
-		//"no-console": 0
-	},
-	"globals": {
-		"$": true,
-		"console": true
-	},
 	"env": {
 		"browser": true,
-		"node": true,
-		"es6": true
+		"es2021": true,
+		"node": true
 	},
+	"extends": [
+		"eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+	],
+	"globals": {},
+    "parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"env": "browser",
+		"ecmaVersion": "latest",
+		"requireConfigFile": false,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"modules": true
+		}
+	},
+	"plugins": [],
+	"rules": {
+		"no-console": 1,
+		"prefer-const": 1,
+        "indent": ["error", 4]
+	}
 }

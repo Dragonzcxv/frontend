@@ -18,9 +18,3 @@
         gutter-size-#{$key}: $val
     }
 }
-
-@each $key, $val in $breakpoints-width {
-    :export {
-        breakpoints-width-#{$key}: $val
-    }
-}

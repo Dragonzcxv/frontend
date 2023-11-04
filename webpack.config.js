@@ -5,11 +5,11 @@ const babel = require('./webpack/babel');
 const fonts = require('./webpack/fonts');
 const scss = require('./webpack/scss');
 const css = require('./webpack/css');
+const typescript = require('./webpack/typescript');
 const source_map = require('./webpack/source-map');
 const userSettings = require('./user.settings');
 const utils = require('./webpack/utils');
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
@@ -44,20 +44,22 @@ const common = merge([
             path: utils.BuildPath(env),
             publicPath: utils.PublicPath(env),
             filename: FilenameTemplate('js/[name].js'),
+            clean: true,
         },
         resolve: {
-            extensions: ['.js', '.scss', '.css'],
+            extensions: ['.js', '.ts', '.scss', '.css'],
             modules: [
                 path.join(__dirname, 'src'),
                 path.join(__dirname, 'node_modules'),
             ],
         },
         plugins: [
-            new CleanWebpackPlugin(),
             new MiniCssExtractPlugin({
                 filename: FilenameTemplate('css/[name].css'),
             }),
-            new ESLintPlugin(),
+            new ESLintPlugin({
+                extensions: "ts"
+            }),
             new StyleLintPlugin(),
             new AssetsPlugin({
                 filename: path.join('assets', env + '.json'),
@@ -71,6 +73,7 @@ const common = merge([
     fonts(),
     scss(),
     css(),
+    typescript()
 ]);
 
 module.exports = function () {

@@ -1,0 +1,101 @@
+@use "sass:map";
+@import "../styles";
+@import "../fonts";
+@include site-fonts;
+
+html {
+    height: 100%;
+    overflow-y: visible;
+    box-sizing: border-box;
+    overflow-x: hidden;
+
+    &.overflow {
+        overflow: hidden;
+    }
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    background: $body-background;
+    font-family: $body-font-family;
+    color: $body-font-color;
+
+    & * {
+        box-sizing: border-box;
+    }
+}
+
+header {
+    z-index: 1000;
+}
+
+footer {
+    //
+}
+
+main {
+    //
+}
+
+h1,
+.c-h1 {
+    margin: 0;
+    padding: 0;
+}
+
+h2,
+.c-h2 {
+    margin: 0;
+    padding: 0;
+}
+
+h3,
+.c-h3 {
+    margin: 0;
+    padding: 0;
+}
+
+h4,
+.c-h4 {
+    margin: 0;
+    padding: 0;
+}
+
+p,
+.p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    margin: 0;
+    padding: 0;
+}
+
+.l-content-container {
+    @include content-container;
+
+    width: 100%;
+    margin: 0 auto;
+}
+
+.l-content-container-left {
+    @include content-container("left");
+
+    width: 100%;
+}
+
+.l-content-container-left {
+    @include content-container("right");
+
+    width: 100%;
+}
+
+.l-main-container {
+    @include main-container;
+}

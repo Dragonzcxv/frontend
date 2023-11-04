@@ -3,7 +3,7 @@
 @use "sass:math";
 @use "sass:string";
 
-/// Задает максимальную ширину и отступ для блока
+/// Задает контентные отсутпы исходя из конфига
 ///
 /// @param {"left" | "right" | "all"} $side - направление растяжения
 /// @param {bool} $indent-margin - делать отступ маржином (true) или падингом (false)
@@ -55,20 +55,22 @@
     }
 }
 
-// Для переданного css свойства устанавливает значение переменной $content-offsets
-@mixin set-content-offsets($css-property) {
-    #{$css-property}: $content-offset-over-min;
-
-    @each $key, $val in $site-breakpoints {
-        $value: map.get($content-offsets, $key);
-
-        @media (min-width: $val) {
-            #{$css-property}: $value;
-        }
-    }
+// Ограничивает кол-во строчек текста
+/* stylelint-disable property-no-vendor-prefix, value-no-vendor-prefix */
+@mixin limit-text-lines-count($line-count) {
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -ms-line-clamp: $line-count;
+    -webkit-line-clamp: $line-count;
+    line-clamp: $line-count;
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
 }
 
-/// Задает max-width для работы резиновых отступов
+/// Задает max-width контента исходя из конфига
 @mixin main-container($side: "all") {
     @if ($side == "all") {
         max-width: $main-width-over-min;
@@ -85,104 +87,47 @@
             }
         }
     }
-
-    margin: 0 auto;
 }
 
 /// Задает брейкпоинт по ширине
-///
-/// @param {breakpoints | size} $size - требуемый брейкпоинт
-/// @param {"up" | "down"} $direction - направление min-width (up) или max-width (down)
-/// @param {"" | "portrait" | "landscape"} $orientation - добавить к условию ориентацию экрана
-///
-/// @example
-/// @include for-width ("max") {
-///     width: 50%;
-/// }
-@mixin for-width($size, $direction: "up", $orientation: "") {
-    $media-rule: "";
-    $media: "min-width";
-    $sizee: "";
+/// @param {breakpoints} $breakpoint - требуемый брейкпоинт из масива брейкпойнтов в конфиге
+/// @param {bool} $first-mobile - применять через min-width
+@mixin breakpoint($breakpoint, $first-mobile: true) {
+    $width: 0;
+    $known: map.keys($site-breakpoints);
 
-    @if ($direction == "down") {
-        $media: "max-width";
+    @if (map-has-key($site-breakpoints, $breakpoint)) {
+        $width: #{map.get($site-breakpoints, $breakpoint)};
+    } @else if type-of($breakpoint) == "number" {
+        $width: #{$breakpoint};
     }
 
-    @if ($orientation != "") {
-        $media-rule: "(orientation: " + $orientation + ") and ";
-    }
-
-    @if (map.get($site-breakpoints, $size)) {
-        $sizee: map.get($site-breakpoints, $size);
+    @if (0 == $width) {
+        @warn "Нет брейкпоинта #{" " + $breakpoint}. Доступные значения: #{$known}.";
     } @else {
-        $sizee: map.get($breakpoints-width, $size);
-    }
+        $conditions-block: "(min-width: #{$width})";
 
-    @if (not $sizee) {
-        $sizee: $size;
-    }
+        @if ($first-mobile == false) {
+            $conditions-block: "(max-width: #{calc($width - 1px)})";
+        }
 
-    @if ($direction == "down") {
-        $sizee: $sizee - 1;
-    }
-
-    @media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
-        @content;
-    }
-}
-
-/// Задает брейкпоинт по высоте
-///
-/// @param {breakpoints | size} $size - требуемый брейкпоинт
-/// @param {"up" | "down"} $direction - направление min-height (up) или max-height (down)
-/// @param {"" | "portrait" | "landscape"} $orientation - добавить к условию ориентацию экрана
-///
-/// @example
-/// @include for-height ("max") {
-///     height: 1000px;
-/// }
-@mixin for-height($size, $direction: "up", $orientation: "") {
-    $media-rule: "";
-    $media: "min-height";
-    $sizee: "";
-
-    @if ($direction == "down") {
-        $media: "max-height";
-    }
-
-    @if ($orientation != "") {
-        $media-rule: "(orientation: " + $orientation + ") and ";
-    }
-
-    @if (map.get($site-breakpoints, $size)) {
-        $sizee: map.get($site-breakpoints, $size);
-    } @else {
-        $sizee: map.get($breakpoints-height, $size);
-    }
-
-    @if (not $sizee) {
-        $sizee: $size;
-    }
-
-    @if ($direction == "down") {
-        $sizee: $sizee - 1;
-    }
-
-    @media #{$media-rule + "(" + $media + ": " + $sizee + ")"} {
-        @content;
+        @media #{$conditions-block} {
+            @content;
+        }
     }
 }
 
 /// Миксин для сетки
 ///
 /// @param {grid-template-value} $template-columns - размер столбцов через grid-template-columns
-@mixin grid-container($template-columns) {
+/// @param {gap} $gap - размер между столбцов через gup
+@mixin grid-container($template-columns, $gap: $gutter-size-over-min) {
     display: grid;
     grid-template-columns: $template-columns;
-    gap: $gutter-size-over-min;
+    gap: $gap;
 
-    @each $key, $val in map-reverse($site-breakpoints) {
-        @media (max-width: $val) {
+    @each $key, $val in $site-breakpoints {
+        @media (min-width: $val) {
             gap: map.get($gutter-size, $key);
         }
     }
@@ -197,5 +142,6 @@
         font-style: $style;
         font-weight: $weight;
         src: $src;
+        font-display: swap;
     }
 }

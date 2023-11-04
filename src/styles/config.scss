@@ -1,48 +1,37 @@
-// Пользовательские переменные
-
+// Базовые цвета.
 $color-white: #fff;
 $color-black: #000;
-$color-red: #c04c36;
-$color-bg-gray: #f5f5f5;
-$color-gray-text: #727272;
-$color-gray-border: #787878;
-$color-gray-line: #dbdbdb;
-$color-green: #007e00;
+$color-blue: #0072bc;
+$color-yellow: #fecc00;
 
 $site-breakpoints: (
-    min: 320px,
-    mobile: 428px,
-    mobile2: 680px,
-    middle: 1000px,
-    middle2: 1440px,
-    middle3: 1600px,
+    mobile: 320px,
+    table: 768px,
+    middle: 1200px,
+    big: 1440px,
     full: 1920px,
 );
 
 // отступ контента СТРАНИЦЫ для разных брекпоинтов
 // работают через media-запрос min-width
 $content-offsets: (
-    min: 15px,
     mobile: 30px,
-    mobile2: 30px,
-    middle: 20px,
-    middle2: 20px,
-    middle3: 20px,
-    full: 20px,
+    table: 30px,
+    middle: 15px,
+    big: 15px,
+    full: 15px,
 );
 
-$content-offset-over-min: 15px;
+$content-offset-over-min: 30px;
 
 // отступ для MAIN для разных брекпоинтов
 // работают через media-запрос min-width
 $main-width: (
-    min: 680px,
-    mobile: 680px,
-    mobile2: 1100px,
-    middle: 1100px,
-    middle2: 1440px,
-    middle3: 1440px,
-    full: 1440px,
+    mobile: 1205px,
+    table: 1205px,
+    middle: 1205px,
+    big: 1205px,
+    full: 1205px,
 );
 
 $main-width-over-min: 320px;
@@ -50,45 +39,14 @@ $main-width-over-min: 320px;
 // отступ для grid-container на разных брекпоинтах
 // работают через media-запрос min-width
 $gutter-size: (
-    min: 20px,
     mobile: 20px,
-    mobile2: 20px,
-    middle: 20px,
-    middle2: 20px,
-    middle3: 20px,
-    full: 20px,
+    table: 20px,
+    middle: 30px,
+    big: 30px,
+    full: 30px,
 );
 
 $gutter-size-over-min: 20px;
-
-// базовый размер ширифта для разных брекпоинтов
-$font-size: (
-    min: 16px,
-    mobile: 16px,
-    mobile2: 16px,
-    middle: 16px,
-    middle2: 16px,
-    middle3: 16px,
-    full: 16px,
-);
-
-$font-size-over-min: 16px;
-
-$global-font-size: 16px;
-
 $body-background: $color-white;
 $body-font-color: $color-black;
-$body-font-family: sans-serif;
-$body-font-size: 16px;
-
-// Брекпоинты по ширине
-$breakpoints-width: (
-    "extra-mobile-min": 500px,
-    "extra-mobile": 780px,
-    "extra-middle": 1100px,
-);
-
-// Брекпоинты по высоте
-$breakpoints-height: (
-    //
-);
+$body-font-family: "Helvetica Neue", helvetica, roboto, arial, sans-serif;
