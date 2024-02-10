@@ -13,7 +13,6 @@ class StyleConfig {
      * @returns {object}
      */
     static get() {
-        console.log(config);
         return {
             siteBreakpoints: {
                 min: this.getNumber(config["site-breakpoints-mobile"]),
@@ -30,7 +29,7 @@ class StyleConfig {
                 big: this.getNumber(config["gutter-size-big"]),
                 full: this.getNumber(config["gutter-size-full"]),
             },
-        }
+        };
     }
 
     /**

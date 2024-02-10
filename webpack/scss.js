@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const userSettings = require('../user.settings');
+const path = require('path');
 
 // Loaders
 const css_loader = {
@@ -12,7 +14,7 @@ const css_loader = {
                 if (url.startsWith('../')) {
                     return false;
                 }
-                
+
                 return true;
             }
         },
@@ -43,6 +45,19 @@ const post_css_loader = {
     }
 };
 
+const loaders = [
+    MiniCssExtractPlugin.loader,
+    css_loader,
+    post_css_loader,
+    sass_loader,
+];
+
+if (userSettings.usePrettier && process.env.NODE_ENV === "dev") {
+    loaders.push({
+        loader: path.resolve("./webpack/loaders/prettier.js"),
+    });
+}
+
 // Конфиг
 module.exports = function() {
     return {
@@ -50,12 +65,7 @@ module.exports = function() {
             rules: [
                 {
                     test: /\.(scss)$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        css_loader,
-                        post_css_loader,
-                        sass_loader
-                    ],
+                    use: loaders
                 },
             ],
         },

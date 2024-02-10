@@ -3,53 +3,32 @@
 @use "sass:math";
 @use "sass:string";
 
-/// Задает контентные отсутпы исходя из конфига
+/// Задает контентные отступы исходя из конфига
 ///
 /// @param {"left" | "right" | "all"} $side - направление растяжения
-/// @param {bool} $indent-margin - делать отступ маржином (true) или падингом (false)
-@mixin content-container($side: "all", $indent-margin: false) {
+@mixin content-container($side: "all") {
     box-sizing: border-box;
 
-    $indent: if($indent-margin and $content-offset-over-min == 0, auto, $content-offset-over-min);
+    $indent: $content-offset-over-min;
 
-    @if ($indent-margin) {
-        @if ($side == "all" or $side == "left") {
-            margin-left: $indent;
-        }
+    @if ($side == 'all' or $side == "left") {
+        padding-left: $indent;
+    }
 
-        @if ($side == "all" or $side == "right") {
-            margin-right: $indent;
-        }
-    } @else {
-        @if ($side == "all" or $side == "left") {
-            padding-left: $indent;
-        }
-
-        @if ($side == "all" or $side == "right") {
-            padding-right: $indent;
-        }
+    @if ($side == "all" or $side == "right") {
+        padding-right: $indent;
     }
 
     @each $key, $val in $site-breakpoints {
         @media (min-width: $val) {
-            $indent: if($indent-margin and map.get($content-offsets, $key) == 0, auto, map.get($content-offsets, $key));
+            $indent: map.get($content-offsets, $key);
 
-            @if ($indent-margin) {
-                @if ($side == "all" or $side == "left") {
-                    margin-left: $indent;
-                }
+            @if ($side == "all" or $side == "left") {
+                padding-left: $indent;
+            }
 
-                @if ($side == "all" or $side == "right") {
-                    margin-right: $indent;
-                }
-            } @else {
-                @if ($side == "all" or $side == "left") {
-                    padding-left: $indent;
-                }
-
-                @if ($side == "all" or $side == "right") {
-                    padding-right: $indent;
-                }
+            @if ($side == "all" or $side == "right") {
+                padding-right: $indent;
             }
         }
     }
@@ -122,15 +101,15 @@
 /// @param {grid-template-value} $template-columns - размер столбцов через grid-template-columns
 /// @param {gap} $gap - размер между столбцов через gup
 @mixin grid-container($template-columns, $gap: $gutter-size-over-min) {
-    display: grid;
-    grid-template-columns: $template-columns;
-    gap: $gap;
+	display: grid;
+	grid-template-columns: $template-columns;
+	gap: $gap;
 
-    @each $key, $val in $site-breakpoints {
-        @media (min-width: $val) {
-            gap: map.get($gutter-size, $key);
-        }
-    }
+	@each $key, $val in $site-breakpoints {
+		@media (min-width: $val) {
+			gap: map.get($gutter-size, $key);
+		}
+	}
 }
 
 @mixin font-face($name, $path, $weight: normal, $style: normal, $woff2: false) {

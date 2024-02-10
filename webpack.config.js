@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const { merge } = require('webpack-merge');
 const babel = require('./webpack/babel');
@@ -15,6 +14,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const AssetsPlugin = require('assets-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 const env = process.env.NODE_ENV || 'dev';
 const production = env === 'prod';
@@ -40,11 +40,18 @@ const common = merge([
     {
         mode: production ? 'production' : 'development',
         entry: userSettings.entry,
+        watchOptions: {
+            // aggregateTimeout: 2000,
+            // poll: 5000,
+        },
         output: {
             path: utils.BuildPath(env),
             publicPath: utils.PublicPath(env),
             filename: FilenameTemplate('js/[name].js'),
             clean: true,
+        },
+        stats: {
+            loggingDebug: ["sass-loader"],
         },
         resolve: {
             extensions: ['.js', '.ts', '.scss', '.css'],
@@ -67,13 +74,20 @@ const common = merge([
                 prettyPrint: true,
             }),
             new DuplicatePackageCheckerPlugin(),
+            new CircularDependencyPlugin({
+                // exclude detection of files based on a RegExp
+                exclude: /node_modules/,
+                // add errors to webpack instead of warnings
+                failOnError: true,
+                cwd: process.cwd(),
+            })
         ],
     },
     babel(),
     fonts(),
     scss(),
     css(),
-    typescript()
+    typescript(),
 ]);
 
 module.exports = function () {

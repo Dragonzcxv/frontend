@@ -12,8 +12,9 @@ $site-breakpoints: (
     full: 1920px,
 );
 
-// отступ контента СТРАНИЦЫ для разных брекпоинтов
+// отступ контента на брекпоинтах (через .l-content-container)
 // работают через media-запрос min-width
+$content-offset-over-min: 30px;
 $content-offsets: (
     mobile: 30px,
     table: 30px,
@@ -22,10 +23,11 @@ $content-offsets: (
     full: 15px,
 );
 
-$content-offset-over-min: 30px;
 
-// отступ для MAIN для разных брекпоинтов
+
+// Максимальная ширина контента на брейкпойнтах (через .l-main-container)
 // работают через media-запрос min-width
+$main-width-over-min: 320px;
 $main-width: (
     mobile: 1205px,
     table: 1205px,
@@ -34,10 +36,9 @@ $main-width: (
     full: 1205px,
 );
 
-$main-width-over-min: 320px;
-
 // отступ для grid-container на разных брекпоинтах
 // работают через media-запрос min-width
+$gutter-size-over-min: 20px;
 $gutter-size: (
     mobile: 20px,
     table: 20px,
@@ -46,7 +47,6 @@ $gutter-size: (
     full: 30px,
 );
 
-$gutter-size-over-min: 20px;
 $body-background: $color-white;
 $body-font-color: $color-black;
-$body-font-family: "Helvetica Neue", helvetica, roboto, arial, sans-serif;
+$body-font-family: arial, sans-serif;

@@ -1,5 +1,5 @@
 import "normalize.css";
-import "styles/layout/base.scss";
+import "../styles/layout/base.scss";
 import Registration from "../base/Registration";
 import "../blocks/common/Example/Example";
 

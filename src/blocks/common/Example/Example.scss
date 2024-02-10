@@ -3,5 +3,11 @@
 $block-name: "b-example";
 
 .#{$block-name} {
-    //
+    display: flex;
+
+    .test {
+        &::before {
+            content: "";
+        }
+    }
 }

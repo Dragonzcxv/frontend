@@ -9,12 +9,12 @@
 
 @each $key, $val in $site-breakpoints {
     :export {
-        site-breakpoints-#{$key}: $val
+        site-breakpoints-#{$key}: $val;
     }
 }
 
 @each $key, $val in $gutter-size {
     :export {
-        gutter-size-#{$key}: $val
+        gutter-size-#{$key}: $val;
     }
 }

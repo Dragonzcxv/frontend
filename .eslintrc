@@ -24,6 +24,7 @@
 	"rules": {
 		"no-console": 1,
 		"prefer-const": 1,
+        "quotes": ["error", "double"],
         "indent": ["error", 4]
 	}
 }

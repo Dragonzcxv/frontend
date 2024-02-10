@@ -4,19 +4,19 @@
  * @param { Element } el - элемент блока на странице
  */
 class Block {
-    public el: Element;
+	public el: HTMLElement;
 
-    public static get blockName() {
-        return "";
-    }
+	public static get blockName() {
+		return "";
+	}
 
-    constructor(el: Element) {
-        this.el = el;
-    }
+	constructor(el: HTMLElement) {
+		this.el = el;
+	}
 
-    onInit() {
-        //
-    }
+	onInit() {
+		//
+	}
 }
 
 export default Block;

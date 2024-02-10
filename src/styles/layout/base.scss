@@ -5,9 +5,8 @@
 
 html {
     height: 100%;
-    overflow-y: visible;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow: hidden visible;
 
     &.overflow {
         overflow: hidden;
