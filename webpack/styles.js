@@ -64,7 +64,7 @@ module.exports = function() {
         module: {
             rules: [
                 {
-                    test: /\.(scss)$/,
+                    test: /\.(scss|css)$/,
                     use: loaders
                 },
             ],

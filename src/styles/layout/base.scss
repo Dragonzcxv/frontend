@@ -98,3 +98,28 @@ a {
 .l-main-container {
     @include main-container;
 }
+
+// Отступы
+@each $indent in $indents {
+    .#{map.get($indent, "name")} {
+        &-top {
+            margin-top: map.get(map.get($indent, "sizes"), "mobile");
+
+            @each $size, $value in map.get($indent, "sizes") {
+                @include breakpoint($size) {
+                    margin-top: $value;
+                }
+            }
+        }
+
+        &-bottom {
+            margin-bottom: map.get(map.get($indent, "sizes"), "mobile");
+
+            @each $size, $value in map.get($indent, "sizes") {
+                @include breakpoint($size) {
+                    margin-bottom: $value;
+                }
+            }
+        }
+    }
+}

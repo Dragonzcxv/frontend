@@ -1,20 +1,20 @@
+@use "sass:map";
 @import "config";
 
-/* stylelint-disable selector-pseudo-class-no-unknown, declaration-block-trailing-semicolon, property-no-unknown
-
-*/
-:export {
-    gutter-size-over-min: $gutter-size-over-min;
-}
-
+/* stylelint-disable
+ */
 @each $key, $val in $site-breakpoints {
-    :export {
-        site-breakpoints-#{$key}: $val;
-    }
+	:export {
+		site-breakpoints-#{$key}: $val;
+	}
 }
 
-@each $key, $val in $gutter-size {
-    :export {
-        gutter-size-#{$key}: $val;
-    }
+@each $indent in $indents {
+	:export {
+		indents-#{map.get($indent, "name")}-top: #{map.get($indent, "name")}-top,
+	}
+
+	:export {
+		indents-#{map.get($indent, "name")}-bottom: #{map.get($indent, "name")}-bottom,
+	}
 }

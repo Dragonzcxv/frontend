@@ -11,7 +11,7 @@
 
     $indent: $content-offset-over-min;
 
-    @if ($side == 'all' or $side == "left") {
+    @if ($side == "all" or $side == "left") {
         padding-left: $indent;
     }
 

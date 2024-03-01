@@ -1,0 +1,21 @@
+@use "sass:map";
+@import "../styles/styles";
+
+// Отступы
+@each $indent in $indents {
+	.debug-#{map.get($indent, "name")}-top,
+	.debug-#{map.get($indent, "name")}-bottom {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: map.get($indent, "color");
+		opacity: 0.5;
+		height: map.get(map.get($indent, "sizes"), "mobile");
+
+		@each $size, $value in map.get($indent, "sizes") {
+			@include breakpoint($size) {
+				height: $value;
+			}
+		}
+	}
+}

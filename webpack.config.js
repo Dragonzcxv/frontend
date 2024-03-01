@@ -2,8 +2,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const babel = require('./webpack/babel');
 const fonts = require('./webpack/fonts');
-const scss = require('./webpack/scss');
-const css = require('./webpack/css');
+const styles = require('./webpack/styles');
 const typescript = require('./webpack/typescript');
 const source_map = require('./webpack/source-map');
 const userSettings = require('./user.settings');
@@ -40,10 +39,6 @@ const common = merge([
     {
         mode: production ? 'production' : 'development',
         entry: userSettings.entry,
-        watchOptions: {
-            // aggregateTimeout: 2000,
-            // poll: 5000,
-        },
         output: {
             path: utils.BuildPath(env),
             publicPath: utils.PublicPath(env),
@@ -85,8 +80,7 @@ const common = merge([
     },
     babel(),
     fonts(),
-    scss(),
-    css(),
+    styles(),
     typescript(),
 ]);
 

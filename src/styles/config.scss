@@ -23,8 +23,6 @@ $content-offsets: (
     full: 15px,
 );
 
-
-
 // Максимальная ширина контента на брейкпойнтах (через .l-main-container)
 // работают через media-запрос min-width
 $main-width-over-min: 320px;
@@ -50,3 +48,21 @@ $gutter-size: (
 $body-background: $color-white;
 $body-font-color: $color-black;
 $body-font-family: arial, sans-serif;
+
+// Отступы
+$indents: (
+	(
+		"name": "margin-green",
+		"color": #11e934,
+		"sizes": (
+			"mobile": 60px,
+		),
+	),
+	(
+		"name": "margin-orange",
+		"color": #f58220,
+		"sizes": (
+			"mobile": 60px,
+		),
+	),
+);
